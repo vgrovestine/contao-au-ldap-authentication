@@ -1,8 +1,10 @@
 <?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
 
 /**
- * TYPOlight Open Source CMS
- * Copyright (C) 2005-2010 Leo Feyer
+ * Contao Open Source CMS
+ * Copyright (C) 2005-2013 Leo Feyer
+ *
+ * Formerly known as TYPOlight Open Source CMS.
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,10 +21,10 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  2009-2010, Acadia University (Technology Services)
+ * @copyright  2009-2013, Acadia University (Technology Services)
  * @author     Vincent Grovestine <vincent.grovestine@acadiau.ca>
  * @package    au-ldap_authentication
- * @license    LGPL
+ * @license    LGPL 
  * @filesource
  */
 
@@ -30,7 +32,7 @@
 /**
  * Class LdapAuthentication 
  *
- * @copyright  2009-2010, Acadia University (Technology Services)
+ * @copyright  2009-2013, Acadia University (Technology Services)
  * @author     Vincent Grovestine <vincent.grovestine@acadiau.ca>
  * @package    Controller
  */
@@ -44,9 +46,12 @@ class LdapAuthentication extends Controller {
 	 */
 	public function authenticate($strUsername, $strPassword) {
 
+    // Allow special characters in passwords passed to LDAP
+    $strPassword = $this->decodeSpecialChars($strPassword);
+
 	  // Fix DN strings munged up by character encoding when they were saved to localconfig.php
-	  $GLOBALS['TL_CONFIG']['ldapAuth_basedn'] = $this->fixLocalconfigDN($GLOBALS['TL_CONFIG']['ldapAuth_basedn']);
-	  $GLOBALS['TL_CONFIG']['ldapAuth_serverdn'] = $this->fixLocalconfigDN($GLOBALS['TL_CONFIG']['ldapAuth_serverdn']);
+	  $GLOBALS['TL_CONFIG']['ldapAuth_basedn'] = $this->decodeSpecialChars($GLOBALS['TL_CONFIG']['ldapAuth_basedn']);
+	  $GLOBALS['TL_CONFIG']['ldapAuth_serverdn'] = $this->decodeSpecialChars($GLOBALS['TL_CONFIG']['ldapAuth_serverdn']);
 
     // Parse options
   	$strLdapAuth_option = array();
@@ -150,15 +155,18 @@ class LdapAuthentication extends Controller {
 	  return false; 
 	}
 	
-	/**
-	 * Revert encoded "=" from localconfig in DN strings
-	 * @param string $strDN
-	 * @return string
-	 */
-  public function fixLocalconfigDN($strDN) {
-    $strDN = str_replace('&#61;', '=', $strDN);
-    return $strDN;
-  }
+  /**
+   * Invert Contao's special character encoding 
+   * See: ./system/libraries/Input.php, line 624, encodeSpecialCharacters()
+   * @param string $str
+   * @return string
+   */
+	public function decodeSpecialChars($str) {
+    $arrReplace = array('#', '<', '>', '(', ')', '\\', '=');
+		$arrSearch = array('&#35;', '&#60;', '&#62;', '&#40;', '&#41;', '&#92;', '&#61;');
+		return str_replace($arrSearch, $arrReplace, $str);
+	}
+  
 	
 	/**
 	 * Generate module

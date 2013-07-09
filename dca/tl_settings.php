@@ -1,8 +1,10 @@
 <?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
 
 /**
- * TYPOlight Open Source CMS
- * Copyright (C) 2005-2010 Leo Feyer
+ * Contao Open Source CMS
+ * Copyright (C) 2005-2013 Leo Feyer
+ *
+ * Formerly known as TYPOlight Open Source CMS.
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,10 +21,10 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  2009-2010, Acadia University (Technology Services)
+ * @copyright  2009-2013, Acadia University (Technology Services)
  * @author     Vincent Grovestine <vincent.grovestine@acadiau.ca>
  * @package    au-ldap_authentication
- * @license    LGPL
+ * @license    LGPL 
  * @filesource
  */
 
