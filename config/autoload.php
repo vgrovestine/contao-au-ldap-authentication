@@ -28,22 +28,12 @@
  * @filesource
  */
 
-// hooks
-$GLOBALS['TL_HOOKS'] = array(
-  'checkCredentials' => array(
-    array('LdapAuthentication', 'authenticate')
+
+// register classes
+ClassLoader::addClasses(
+  array(
+    'LdapAuthentication' => 'system/modules/au-ldap_authentication/LdapAuthentication.php'
   )
 );
 
-// predefine system setting defaults
-$GLOBALS['TL_CONFIG']['ldapAuth_server'] = 'localhost';
-$GLOBALS['TL_CONFIG']['ldapAuth_port'] = 3268;
-$GLOBALS['TL_CONFIG']['ldapAuth_serverdn'] = '';
-$GLOBALS['TL_CONFIG']['ldapAuth_basedn'] = '';
-$GLOBALS['TL_CONFIG']['ldapAuth_password'] = '';
-$GLOBALS['TL_CONFIG']['ldapAuth_option'] = '';
-
-
-
- 
 ?>

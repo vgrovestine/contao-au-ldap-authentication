@@ -21,7 +21,7 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  2009-2013, Acadia University (Technology Services)
+ * @copyright  2009-2015, Acadia University (Technology Services)
  * @author     Vincent Grovestine <vincent.grovestine@acadiau.ca>
  * @package    au-ldap_authentication
  * @license    LGPL 
@@ -32,7 +32,7 @@
 /**
  * Class LdapAuthentication 
  *
- * @copyright  2009-2013, Acadia University (Technology Services)
+ * @copyright  2009-2015, Acadia University (Technology Services)
  * @author     Vincent Grovestine <vincent.grovestine@acadiau.ca>
  * @package    Controller
  */
@@ -45,6 +45,12 @@ class LdapAuthentication extends Controller {
 	 * @return boolean
 	 */
 	public function authenticate($strUsername, $strPassword) {
+    
+    // If PHP-LDAP module is not installed/enabled, log error then fail authentication
+	  if(!function_exists('ldap_connect')) {
+   	  $this->log('Unable to authenticate "' . $strUsername . '" via LDAP service: PHP LDAP extension does not appear to be installed/enabled. (Please notify the system administrator.)', 'LdapAuthentication authenticate()', 'LDAP_ERROR');
+	    return false;
+	  }
 
     // Allow special characters in passwords passed to LDAP
     $strPassword = $this->decodeSpecialChars($strPassword);

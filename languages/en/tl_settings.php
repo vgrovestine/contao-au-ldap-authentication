@@ -21,7 +21,7 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  2009-2013, Acadia University (Technology Services)
+ * @copyright  2009-2015, Acadia University (Technology Services)
  * @author     Vincent Grovestine <vincent.grovestine@acadiau.ca>
  * @package    au-ldap_authentication
  * @license    LGPL 
