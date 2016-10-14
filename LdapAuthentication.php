@@ -64,7 +64,7 @@ class LdapAuthentication extends Controller {
 	  $x = explode(';', $GLOBALS['TL_CONFIG']['ldapAuth_option']);
 	  foreach($x as $y) {
 	    $z = explode(',', $y);
-	    if(count($z) == 2) {
+	    if(count($z) == 2 && stripos(trim($z[0]), 'LDAP_OPT_') === 0) {
 	      $strLdapAuth_option[] = $z;
 	    }
 	  } 
@@ -80,7 +80,7 @@ class LdapAuthentication extends Controller {
 
 			// Set LDAP options
 			foreach($strLdapAuth_option as $opt) {
-				ldap_set_option($conn, $opt[0], $opt[1]);
+				ldap_set_option($conn, constant(strtoupper(trim($opt[0]))), $opt[1]);
 			}
 			
 			// Bind server's username/password combination
